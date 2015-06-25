@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>User Roles</title>
+    <meta charset="UTF-8" /> <title>User Roles</title>
     <link rel="stylesheet" href="code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="code.jquery.com/jquery-1.10.2.js"></script>
     <script src="code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -22,23 +21,48 @@
 		url: "",                                               
 		timeout: 2000,                                         
 		beforeSend: function() {                              
-		  $("#leftselect").append('<option value="option">option</option>');
-		  $("#leftselect").append('<option value="option">option</option>');
-		  $("#leftselect").append('<option value="option">option</option>');
-		  $("#leftselect").append('<option value="option">option</option>');
+		  $("#leftselect").append('<option value="option">dummy option</option>');
 		},
-		complete: function() {
-		  //remove old data
+		complete: function(data) {
+		      //remove old data
 		},
 		//load new data
 		success: function(data) {                           
+		      console.log(data.username); 
+		      console.log(data.roles)
+		      var roles = data.roles.split(",");
+		      var left = document.getElementById("leftselect");
+		      for (var i = 0; i < roles.length; i++) {
+			      left.appendChild(new Option(roles[i]));
+
+		      };
 		},
 		fail: function() {                                 
-		alert("Failed due to error .. ");	
+		    alert("Failed due to error .. ");	
 		}
-	      });
-	    }); //continue
+	      }); //ajax
+	  }); //click function
 
+	      $("#submit").submit(function(){
+		  $.ajax({
+		    type: "POST",                                           
+		    url: "",
+		    data: $("#form").serialize(),
+		    timeout: 2000,                                         
+		    beforeSend: function() {                              
+			  console.log("about to submit the form..");
+		    },
+		    complete: function(data) {
+			  //remove old data
+		    },
+		    //load new data
+		    success: function(data) {                           
+		    },
+		    fail: function() {                                 
+			alert("Failed due to error .. ");	
+		    }
+		  }); //ajax
+	      }); //submit
 
 	}); // ready
     </script>
@@ -66,27 +90,27 @@
 	}
       }
 
-var righttoleft = function  (evt) {
-  var left = document.getElementById("rightselect");
-  var right = document.getElementById("leftselect");
-  var is_selected = [];
-  for (var i = 0; i < left.options.length; ++i)
-  {
-    is_selected[i] = left.options[i].selected;
-  }
-  i = left.options.length;
-  while (i--)
-  {
-    if (is_selected[i])
-    {
-      right.appendChild(left.options[i].cloneNode(true));
-      left.remove(i);
-    }
-  }
-}
+	var righttoleft = function  (evt) {
+	  var left = document.getElementById("rightselect");
+	  var right = document.getElementById("leftselect");
+	  var is_selected = [];
+	  for (var i = 0; i < left.options.length; ++i)
+	  {
+	    is_selected[i] = left.options[i].selected;
+	  }
+	  i = left.options.length;
+	  while (i--)
+	  {
+	    if (is_selected[i])
+	    {
+	      right.appendChild(left.options[i].cloneNode(true));
+	      left.remove(i);
+	    }
+	  }
+	}
 </script>
 <div class="form">
-  <form action="one_submit" method="post" accept-charset="utf-8">
+  <form action="/tomcat-users.py" method="post" accept-charset="utf-8">
     <fieldset id="name" align="center">
       <legend>User Changes. All fields marked * are necessary</legend>
       <table align="center">
@@ -136,7 +160,7 @@ var righttoleft = function  (evt) {
 	  </tr>
 	</tbody>
       </table>
-      <p><input type="submit" value="Submit"></p>
+      <p><input type="submit" value="Submit" id="submit"></p>
     </fieldset>
   </form>
 </div>
