@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Roles</title>
+    <link rel="stylesheet" href="code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="resources/demos/style.css">
+    <style type="text/css">
+	#leftselect, #rightselect {
+		width: 250px; 
+		height: 250px; 
+		border: 10px; 
+	}
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+	  $("#getuserdata").click(function(){
+	      $.ajax({
+		type: "GET",                                           
+		url: "",                                               
+		timeout: 2000,                                         
+		beforeSend: function() {                              
+		  $("#leftselect").append('<option value="option">option</option>');
+		  $("#leftselect").append('<option value="option">option</option>');
+		  $("#leftselect").append('<option value="option">option</option>');
+		  $("#leftselect").append('<option value="option">option</option>');
+		},
+		complete: function() {
+		  //remove old data
+		},
+		//load new data
+		success: function(data) {                           
+		},
+		fail: function() {                                 
+		alert("Failed due to error .. ");	
+		}
+	      });
+	    }); //continue
+
+
+	}); // ready
+    </script>
+  </head>
+  <body>
+
+    <script type="text/javascript" charset="utf-8">
+      var stringarr = "this is a super string".split(" ");
+      var lefttoright = function  (evt) {
+	var left = document.getElementById("leftselect");
+	var right = document.getElementById("rightselect");
+	var is_selected = [];
+	for (var i = 0; i < left.options.length; ++i)
+	{
+	  is_selected[i] = left.options[i].selected;
+	}
+	i = left.options.length;
+	while (i--)
+	{
+	  if (is_selected[i])
+	  {
+	    right.appendChild(left.options[i].cloneNode(true));
+	    left.remove(i);
+	  }
+	}
+      }
+
+var righttoleft = function  (evt) {
+  var left = document.getElementById("rightselect");
+  var right = document.getElementById("leftselect");
+  var is_selected = [];
+  for (var i = 0; i < left.options.length; ++i)
+  {
+    is_selected[i] = left.options[i].selected;
+  }
+  i = left.options.length;
+  while (i--)
+  {
+    if (is_selected[i])
+    {
+      right.appendChild(left.options[i].cloneNode(true));
+      left.remove(i);
+    }
+  }
+}
+</script>
+<div class="form">
+  <form action="one_submit" method="post" accept-charset="utf-8">
+    <fieldset id="name" align="center">
+      <legend>User Changes. All fields marked * are necessary</legend>
+      <table align="center">
+	<tbody>
+	  <tr>
+	    <td align="right">
+	      <div class="username">
+		<label for="username">User Name*</label>
+		<input type="text" name="username" value="" id="username">
+	      </div>
+	      <div class="currentpassword">
+		<label for="currentpassword">Current Password*</label>
+		<input type="currentpassword" name="currentpassword" value="" id="currentpassword">
+	      </div>
+	      <div class="newpassword">
+		<label for="newpassword">New Password*</label>
+		<input type="newpassword" name="newpassword" value="" id="newpassword">
+	      </div>
+	      <br />
+	      <div class="getuserdata">
+		<input type="button" class="button" value="Continue &rarr;" name="" id="getuserdata"/>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div class="leftselect">
+		<select multiple name="leftselect" id="leftselect">
+		</select>
+	      </div>
+	    </td>
+	    <td>
+	      <div class="right">
+		<input type="button" class="button" value="&rarr;" name="" onclick="lefttoright();" />
+	      </div>
+	      <br />
+	      <div class="left">
+		<input type="button" class="button" value="&larr;" name="" onclick="righttoleft();"/>
+	      </div>
+	    </td>
+	    <td>
+	      <div class="rightselect">
+		<select multiple name="rightselect" id="rightselect">
+		</select>
+	      </div>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+      <p><input type="submit" value="Submit"></p>
+    </fieldset>
+  </form>
+</div>
+  </body>
+</html>

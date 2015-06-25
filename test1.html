@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta charset="UTF-8" />
+	<title>Vinod Halaharvi</title>
+    </head>
+    <style type="text/css">
+	#leftselect, #rightselect {
+		width: 250px; 
+		height: 250px; 
+		border: 10px; 
+		//background-color: #C0C0C0;
+		//padding: 10px;
+	}
+    </style>
+    <body>
+	<script type="text/javascript">
+	    var stringarr = "this is a super string".split(" ");
+	    var testfunction = function  (evt) {
+		var left = document.getElementById("leftselect");
+		var right = document.getElementById("rightselect");
+		var is_selected = [];
+		for (var i = 0; i < left.options.length; ++i)
+		{
+		    is_selected[i] = left.options[i].selected;
+		}
+		i = left.options.length;
+		while (i--)
+		{
+		    if (is_selected[i])
+		    {
+			right.appendChild(left.options[i].cloneNode(true));
+			left.remove(i);
+		    }
+		}
+	    }
+	</script>
+	<fieldset id="Name*">
+	    <legend>Name*</legend>
+	    <select multiple name="leftselect" id="leftselect">
+		<option value="option1">option1</option>
+		<option value="option2">option2</option>
+		<option value="option3">option3</option>
+		<option value="option1">option1</option>
+		<option value="option2">option2</option>
+		<option value="option3">option3</option>
+	    </select>
+	    <select multiple name="rightselect" id="rightselect">
+	    </select>
+	    <input button="leftbuttion" type="button" name="leftbutton" value="leftbutton" id="leftbutton" onclick="testfunction(); return false" />
+	</fieldset>
+    </body>
+</html>
